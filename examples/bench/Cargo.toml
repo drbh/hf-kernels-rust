@@ -1,0 +1,13 @@
+[package]
+name = "example-bench"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+default = []
+cuda = ["kernels/candle-cuda", "candle-core/cuda", "dep:cudarc"]
+
+[dependencies]
+candle-core = "0.9.2"
+cudarc = { version = "0.19.0", optional = true, features = ["cuda-version-from-build-system", "dynamic-linking"] }
+kernels = { git = "https://github.com/huggingface/kernels.git", branch = "add-kernels-rs", features = ["candle"] }

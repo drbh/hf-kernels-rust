@@ -1,0 +1,12 @@
+[package]
+name = "example-raw"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+default = []
+cuda = ["dep:cudarc"]
+
+[dependencies]
+cudarc = { version = "0.19.0", optional = true, features = ["cuda-version-from-build-system", "dynamic-linking"] }
+kernels = { git = "https://github.com/huggingface/kernels.git", branch = "add-kernels-rs" }

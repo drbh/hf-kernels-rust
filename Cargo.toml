@@ -1,0 +1,3 @@
+[workspace]
+members = ["examples/candle", "examples/raw", "examples/bench"]
+resolver = "3"
