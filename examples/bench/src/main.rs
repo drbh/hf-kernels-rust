@@ -8,7 +8,7 @@ const N: usize = 100;
 const SIZE: usize = 32 * 1024 * 1024;
 
 fn bench_candle_relu(device: &Device) -> Result<()> {
-    let x = Tensor::randn(0f32, 1.0, (1, SIZE), device)?;
+    let x = Tensor::randn(0f32, 1.0, (SIZE / 1024, 1024), device)?;
 
     // warmup
     for _ in 0..10 {
@@ -32,7 +32,7 @@ fn bench_candle_relu(device: &Device) -> Result<()> {
 }
 
 fn bench_tvm_relu(module: &kernels::KernelModule, device: &Device) -> Result<()> {
-    let x = Tensor::randn(0f32, 1.0, (1, SIZE), device)?;
+    let x = Tensor::randn(0f32, 1.0, (SIZE / 1024, 1024), device)?;
     let y = Tensor::zeros_like(&x)?;
 
     // warmup

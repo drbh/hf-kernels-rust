@@ -8,6 +8,6 @@ default = []
 cuda = ["kernels/candle-cuda", "candle-core/cuda", "dep:cudarc"]
 
 [dependencies]
-candle-core = "0.9.2"
+candle-core = "0.10.0"
 cudarc = { version = "0.19.0", optional = true, features = ["cuda-version-from-build-system", "dynamic-linking"] }
 kernels = { git = "https://github.com/huggingface/kernels.git", branch = "add-kernels-rs", features = ["candle"] }
