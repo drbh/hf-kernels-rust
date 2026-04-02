@@ -1,6 +1,5 @@
 use candle_core::{Device, Tensor};
-use kernels::Result;
-use kernels::candle::CallKernel;
+use kernels::{Result, kargs};
 
 fn main() -> Result<()> {
     let activation = kernels::candle::get_kernel("drbh/relu-tvm", 1)?;
@@ -9,7 +8,11 @@ fn main() -> Result<()> {
 
     let x = Tensor::new(&[-1.0f32, 2.0, -3.0, 4.0, -0.5, 0.0, 1.5, -2.5], &device)?;
     let y = Tensor::zeros_like(&x)?;
-    activation.call("relu", &[&y, &x])?;
+    activation.call("relu", kargs![&y, &x])?;
+    // activation.call("relu", [
+    //     kernels::candle::KernelArg::from(&y),
+    //     kernels::candle::KernelArg::from(&x),
+    // ])?;
 
     let result = y.to_vec1::<f32>()?;
     let expected = Tensor::new(&*x.to_vec1::<f32>()?, &Device::Cpu)?

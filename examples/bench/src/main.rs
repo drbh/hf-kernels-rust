@@ -1,8 +1,7 @@
 use std::time::Instant;
 
 use candle_core::{Device, Tensor};
-use kernels::Result;
-use kernels::candle::CallKernel;
+use kernels::{Result, kargs};
 
 const N: usize = 100;
 const SIZE: usize = 32 * 1024 * 1024;
@@ -37,13 +36,13 @@ fn bench_tvm_relu(module: &kernels::KernelModule, device: &Device) -> Result<()>
 
     // warmup
     for _ in 0..10 {
-        module.call("relu", &[&y, &x])?;
+        module.call("relu", kargs![&y, &x])?;
     }
     sync(device);
 
     let start = Instant::now();
     for _ in 0..N {
-        module.call("relu", &[&y, &x])?;
+        module.call("relu", kargs![&y, &x])?;
     }
     sync(device);
     let elapsed = start.elapsed();
@@ -75,7 +74,7 @@ fn main() -> Result<()> {
     println!();
 
     bench_tvm_relu(&module, &device)?;
-    bench_candle_relu(&Device::Cpu)?;
+    // bench_candle_relu(&Device::Cpu)?;
 
     #[cfg(feature = "cuda")]
     if matches!(device, Device::Cuda(_)) {
